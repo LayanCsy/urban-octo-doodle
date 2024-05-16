@@ -1,32 +1,43 @@
+package com.mycompany.groupproje;
+
+/**
+ *
+ * @author faisa
+ */
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class Borrow {
-
+    User user1 = new User();
     private Book currentBook;
-    public static ArrayList<Borrow> borrowedBooks = new ArrayList<>(3);
+    public ArrayList<Borrow> borrowedBooks ;
     private String bookName;
     private String bookAuther;
     private String borrowingDate;
-
+   
+    public Borrow() {
+    }
+    
     public Borrow(String bookName, String bookAuther) {
         this.bookName = bookName;
         this.bookAuther = bookAuther;
         this.borrowingDate = toString();
-    }
+   }
 
     // to borrow book
     public String borrowBook(Book currentBook) throws IOException {
-        //to check if the user iligable to borrow 
+        borrowedBooks = user1.getBorrowedBooks();
         ArrayList<String> names = new ArrayList<>(3);
         for (int i = 0; i < borrowedBooks.size(); i++) {
             names.add(borrowedBooks.get(i).bookName);
         }
         Collections.sort(names);
-        for (Borrow b : borrowedBooks) {
+        
+        //to check if the user iligable to borrow 
+        for (String b : names) {
             if (b != null) {
-                if ((b.bookName).equals(currentBook.getBookName())) {
+                if ((b).equals(currentBook.getBookName())) {
                     return "you have already borrowed " + currentBook.getBookName() + ".";
                 }
             } else {
@@ -41,8 +52,13 @@ public class Borrow {
     //to return book
     public String returnBook(Book currentBook) throws IOException {
         //to check if the user borrowed the book
-        for (Borrow b : borrowedBooks) {
-            if ((b.bookName).equals(currentBook.getBookName())) {
+        ArrayList<String> names = new ArrayList<>(3);
+        for (int i = 0; i < borrowedBooks.size(); i++) {
+            names.add(borrowedBooks.get(i).bookName);
+        }
+        Collections.sort(names);
+        for (String b : names) {
+            if ((b).equals(currentBook.getBookName())) {
                 borrowedBooks.remove(this);
                 currentBook.addBook(currentBook.getBookName());
                 return "you have returned " + currentBook.getBookName() + " successfully.";
