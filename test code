@@ -2,15 +2,18 @@ public class GroupProje {
 
     public static void main(String[] args) {
         String outPut="";
+        Borrow book1 = new Borrow ("time","layan");
+        Book book2 = new  Magazine("time","layan",3); 
+       String check = "";
         
         //to make sure that the "borrowBook" method work on the storge as well
-        System.out.println("Number of Books before Borrowoing "+getQuantity());
-        System.out.println(outPut=borrowBook());
-        System.out.println("Number of Books after Borrowoing "+getQuantity());
-        
+        System.out.println("Number of Books before Borrowoing " + book2.getQuantity());
+        System.out.println(outPut = book1.borrowBook(book2));
+        System.out.println("Number of Books after Borrowoing " + book2.getQuantity());
+        System.out.println(check = book1.names.get(1));
         //to make sure that the "returnBook" method work on the storge as well
-        System.out.println("Number of Books before Borrowoing "+getQuantity());
-        System.out.println(outPut=returnBook());
-        System.out.println("Number of Books after Borrowoing "+getQuantity());
+        System.out.println("Number of Books before Borrowoing " + book2.getQuantity());
+        System.out.println(outPut = book1.returnBook(book2));
+        System.out.println("Number of Books after Borrowoing " + book2.getQuantity());
     }
 }
