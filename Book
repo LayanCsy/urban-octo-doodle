@@ -1,28 +1,33 @@
 import java.io.IOException;
 import java.util.ArrayList;
-
 public class Borrow {
 
     private Book currentBook;
-    private ArrayList<Book> borrowedBooks = new ArrayList<>();
-
-    public Borrow() {
-        this.borrowedBooks = new ArrayList<>();
+    private static ArrayList<Borrow> borrowedBooks = new ArrayList<>(3);
+    private String bookName;
+    private String bookAuther;
+    private String borrowingDate;
+    
+    public Borrow(String bookName, String bookAuther) {
+        this.bookName = bookName ;
+        this.bookAuther = bookAuther;
+        this.borrowingDate = toString();
     }
-
+     
     // to borrow book
     public String borrowBook(Book currentBook) throws IOException {
         //to check if the user iligable to borrow 
-        for (int i = 0; i <= 2; i++) {
-            if (borrowedBooks.get(i) != null) {
-                if (equals(borrowedBooks.get(i))) {
+        for (Borrow b : borrowedBooks) {
+            if (b != null){ 
+                if ((b.bookName).equals(currentBook.getBookName())) {
                     return "you have already borrowed " + currentBook.getBookName() + ".";
-                }
-            } else {
-                borrowedBooks.add(currentBook);
+                }break;
+            }
+            if (b == null){
+                borrowedBooks.add(this);
                 currentBook.removeBook(currentBook.getBookName());
                 return "you have borrowed " + currentBook.getBookName() + " successfully.";
-            }
+            }break;
         }//end for loop
         return "you can't borrow " + currentBook.getBookName() + "\nyou have reached maximum capacity.";
     }//end borrowBook
@@ -30,9 +35,9 @@ public class Borrow {
     //to return book
     public String returnBook(Book currentBook) throws IOException {
         //to check if the user borrowed the book
-        for (int i = 0; i <= 2; i++) {
-            if (equals(borrowedBooks.get(i))) {
-                borrowedBooks.remove(currentBook);
+        for (Borrow b : borrowedBooks) {
+            if ((b.bookName).equals(currentBook.getBookName())) {
+                borrowedBooks.remove(this);
                 currentBook.addBook(currentBook.getBookName());
                 return "you have returned " + currentBook.getBookName() + " successfully.";
             }
@@ -40,8 +45,8 @@ public class Borrow {
         return "you didn't borrow " + currentBook.getBookName() + ".";
     }//end returnBook
 
-    @Override
+    /*@Override
     public boolean equals(Object o) {
         return this.currentBook == o;
-    }
+    }*/
 }//end Borrow
