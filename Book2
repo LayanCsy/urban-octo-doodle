@@ -1,0 +1,50 @@
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+
+public class Borrow {
+    User user1 = new User();
+    private Book currentBook;
+    public Borrow[] borrowedBooks = new Borrow[3] ;
+     String bookName;
+    private String bookAuther;
+    private String borrowingDate;
+   ArrayList<String> names = new ArrayList<>(3);
+   
+    public Borrow() {
+        String bookName = "empty";
+    }
+    
+    public Borrow(String bookName, String bookAuther) {
+        this.bookName = bookName;
+        this.bookAuther = bookAuther;
+        this.borrowingDate = toString();
+   }
+
+    // to borrow book
+    public String borrowBook(Book currentBook) throws IOException {
+
+        /*for (int i = 0; i < 3; i++) {
+            names.add(borrowedBooks.get(i).bookName);
+        }*/
+        Collections.sort(names);
+
+        //to check if the user iligable to borrow 
+        for (int i = 0; i <= 2; i++) {
+            if ((borrowedBooks[i]) != null) {
+                if ((borrowedBooks[i].bookName).equals(currentBook.getBookName())) {
+                    return "you have already borrowed " + currentBook.getBookName() + ".";
+                }
+            } else {
+                borrowedBooks[i] = new Borrow(currentBook.getBookName(), currentBook.getA());
+                currentBook.removeBook(currentBook.getBookName());
+                return "you have borrowed " + currentBook.getBookName() + " successfully.";
+            }
+        }//end for loop
+        return "you can't borrow " + currentBook.getBookName() + "\nyou have reached maximum capacity.";
+    }//end borrowBook
+ @Override
+    public boolean equals(Object o) {
+        return this.currentBook == o;
+    }
+}//end Borrow
