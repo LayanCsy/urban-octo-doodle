@@ -1,0 +1,16 @@
+public class GroupProje {
+
+    public static void main(String[] args) {
+        String outPut="";
+        
+        //to make sure that the "borrowBook" method work on the storge as well
+        System.out.println("Number of Books before Borrowoing "+getQuantity());
+        System.out.println(outPut=borrowBook());
+        System.out.println("Number of Books after Borrowoing "+getQuantity());
+        
+        //to make sure that the "returnBook" method work on the storge as well
+        System.out.println("Number of Books before Borrowoing "+getQuantity());
+        System.out.println(outPut=returnBook());
+        System.out.println("Number of Books after Borrowoing "+getQuantity());
+    }
+}
