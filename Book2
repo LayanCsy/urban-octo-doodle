@@ -1,50 +1,68 @@
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Date;
 
 public class Borrow {
-    User user1 = new User();
-    private Book currentBook;
-    public Borrow[] borrowedBooks = new Borrow[3] ;
-     String bookName;
+
+    //private Book currentBook;
+    private String bookName;
     private String bookAuther;
-    private String borrowingDate;
-   ArrayList<String> names = new ArrayList<>(3);
-   
-    public Borrow() {
-        String bookName = "empty";
+    private int quantity;
+    private Date borrowingDate;
+    private Book book2;
+
+    public Borrow(Book book) throws IOException {
+
+        this.bookName = book.getBookName();
+        this.bookAuther = book.getA();
+        this.quantity = book.getQuantity();
+        this.borrowingDate = new Date();
     }
-    
-    public Borrow(String bookName, String bookAuther) {
-        this.bookName = bookName;
-        this.bookAuther = bookAuther;
-        this.borrowingDate = toString();
-   }
 
     // to borrow book
-    public String borrowBook(Book currentBook) throws IOException {
-
-        /*for (int i = 0; i < 3; i++) {
-            names.add(borrowedBooks.get(i).bookName);
-        }*/
-        Collections.sort(names);
+    public String borrowBook() throws IOException {
 
         //to check if the user iligable to borrow 
         for (int i = 0; i <= 2; i++) {
-            if ((borrowedBooks[i]) != null) {
-                if ((borrowedBooks[i].bookName).equals(currentBook.getBookName())) {
-                    return "you have already borrowed " + currentBook.getBookName() + ".";
+            if ((User.vaildUser.getBorrowedBooks()[i]) != null) {
+                if (equals((User.vaildUser.getBorrowedBooks()[i].bookName))) {
+                    return "you have already borrowed \"" + bookName + "\".";
                 }
+            } else if (quantity <= 0) {
+                return "You can't borrow \"" + bookName + "\" .\nit's out of stock.";
             } else {
-                borrowedBooks[i] = new Borrow(currentBook.getBookName(), currentBook.getA());
-                currentBook.removeBook(currentBook.getBookName());
-                return "you have borrowed " + currentBook.getBookName() + " successfully.";
+                User.vaildUser.getBorrowedBooks()[i] = this;
+                book2.removeBook(bookName);
+                return "you have borrowed \"" + bookName + "\" successfully.";
             }
         }//end for loop
-        return "you can't borrow " + currentBook.getBookName() + "\nyou have reached maximum capacity.";
+        return "you can't borrow \"" + bookName + "\"\nyou have reached maximum capacity.";
     }//end borrowBook
- @Override
+
+    //to return book
+    public String returnBook() throws IOException {
+        //to check if the user borrowed the book
+
+        for (int i = 0; i <= 2; i++) {
+            if (equals((User.vaildUser.getBorrowedBooks()[i].bookName))) {
+                User.vaildUser.getBorrowedBooks()[i] = null;
+                book2.addBook(bookName);
+                return "you have returned \"" + bookName + "\" successfully.";
+            }
+        }//end for loop
+        return "you didn't borrow \"" + bookName + "\".";
+    }//end returnBook
+
+    public Date getBorrowingDate() {
+        return borrowingDate;
+    }
+
+    @Override
     public boolean equals(Object o) {
-        return this.currentBook == o;
+        return bookName == o;
+    }
+
+    @Override
+    public String toString() {
+        return "";
     }
 }//end Borrow
