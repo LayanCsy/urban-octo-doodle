@@ -1,0 +1,112 @@
+import java.util.ArrayList;
+
+public class User implements Account{
+    static int i;
+    private String userID ;
+    private String userName ;
+    private String userPassword;
+    private String userType; 
+    private Borrow[] borrowedBooks; // assotiation relationship with borrow
+    
+    public static ArrayList <User> users = new ArrayList<>();
+    
+    
+    //no-args constructor 
+//    public User (){
+//        borrowedBooks = new Borrow[allowedBooks];
+//    }
+    
+    //constructor for the login procces 
+    /*public User (String userID , String userPassword){
+//        this();
+        this.userID = userID;
+        this.userPassword = userPassword;
+        
+    }*/
+    
+    //constructor used to add vaild users 
+    public User (String userID , String userPassword  , String userName, String userType ){
+//        this();
+        borrowedBooks = new Borrow[allowedBooks];
+        this.userID = userID;
+        this.userPassword = userPassword;
+        this.userName = userName ;
+        this.userType = userType;
+        // 102 كذا رح نكرر اليوزر كل مرة يسجل دخوله شوفي سطر
+        User.users.add(this);
+        
+    }
+    
+static User vaildUser  ;
+
+    public String getUserName (){
+        return userName ;
+    }
+    
+    public void setUserName (String userName){
+        this.userName = userName;
+    }
+    
+    // immutable data field 
+    public String getUserID (){
+        return userID;
+    }
+    
+    public String getUserPassword (){
+        return userPassword;
+    }
+    
+    public void setUserPassword (String userPassword ){
+        this.userPassword = userPassword;
+    }
+    
+    public String getUserType (){
+        return userType ;
+    }
+    
+    
+    public Borrow [] getBorrowedBooks (){
+         return borrowedBooks;
+    }
+    
+    
+    
+    public  ArrayList <User> getUsersList(){
+        return users;
+    }
+       
+    
+    @Override
+     public String getList () throws NullPointerException {
+         String list = "";
+        for (Borrow borrowedBook : borrowedBooks) {
+            list = list + borrowedBook.toString();
+        }
+         return list;
+     }
+     
+     //method to cheack if the user is vaild or not
+     
+     
+     public boolean authentication (String userID , String userPassword){
+        for ( i = 0 ; i <users.size()-1 ; i++){
+            if (userID.equals(users.get(i).getUserID())){
+               if (userPassword.equals(users.get(i).getUserPassword())){
+                   vaildUser = new User (users.get(i).userID , users.get(i).userPassword , users.get(i).userName , users.get(i).userType);
+                   return true;
+               }
+            }     
+        } // end for loop
+        
+         return  false ;
+   }
+    
+     
+     
+    @Override
+     public String toString(){
+         
+         return "\nID: " + userID + "\nPassword: " + userPassword + "\nName: " + userName + "\nType: " + userType 
+                 + "\nBorrowed books: " + getList ();
+     }   
+}
