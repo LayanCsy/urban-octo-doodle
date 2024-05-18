@@ -1,0 +1,8 @@
+public interface  {
+    
+    final static int allowedBooks = 3;
+    
+    
+    public abstract boolean authentication (String userID, String userPassword);
+        public String getList () throws NullPointerException;
+    }
