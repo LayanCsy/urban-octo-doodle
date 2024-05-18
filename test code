@@ -1,19 +1,19 @@
+import java.io.IOException;
+
 public class GroupProje {
 
-    public static void main(String[] args) {
-        String outPut="";
-        Borrow book1 = new Borrow ("time","layan");
-        Book book2 = new  Magazine("time","layan",3); 
-       String check = "";
-        
-        //to make sure that the "borrowBook" method work on the storge as well
-        System.out.println("Number of Books before Borrowoing " + book2.getQuantity());
-        System.out.println(outPut = book1.borrowBook(book2));
-        System.out.println("Number of Books after Borrowoing " + book2.getQuantity());
-        System.out.println(check = book1.names.get(1));
-        //to make sure that the "returnBook" method work on the storge as well
-        System.out.println("Number of Books before Borrowoing " + book2.getQuantity());
-        System.out.println(outPut = book1.returnBook(book2));
-        System.out.println("Number of Books after Borrowoing " + book2.getQuantity());
+     public static void main(String[] args) throws IOException{
+        Book book = new Novels ();
+        book.findBook("To Kill a Mockingbird");
+        Borrow borrow = new Borrow (book);
+        User user = new User("Layan","4454418", "m", "VIP" );
+        if (user.authentication("Layan","4454418")){
+        System.out.println("n");
+        System.out.println("Number of Books before Borrowoing " + book.getQuantity());
+        System.out.println(borrow.borrowBook());
+        System.out.println("Number of Books after Borrowoing " + book.getQuantity());
+        }else {
+            System.out.print(false);
+        }
     }
 }
