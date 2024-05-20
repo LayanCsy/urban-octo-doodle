@@ -1,0 +1,211 @@
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
+import javafx.stage.Stage;
+import library.Book;
+import library.Borrow;
+import library.Magazine;
+import library.Novels;
+import library.User;
+
+public class Borrowing extends Application {
+
+    @Override
+    public void start(Stage primaryStage) {
+       Pane root = new Pane();
+        root.setPrefSize(535, 500);
+
+        // Welcome Label
+        Label welcomeLbl = new Label("Welcome UserName");
+         welcomeLbl.setLayoutX(155);
+        welcomeLbl.setLayoutY(35);
+        welcomeLbl.setFont(new Font("Times New Roman", 27));
+
+        // Book Type Label
+        Label bookTypeLbl = new Label("Book Type:");
+        bookTypeLbl.setLayoutX(66);
+        bookTypeLbl.setLayoutY(207);
+        bookTypeLbl.setFont(new Font("Times New Roman", 17));
+        
+        // Book Name Label
+        Label bookNameLbl = new Label("Book Name:");
+        bookNameLbl.setLayoutX(66);
+        bookNameLbl.setLayoutY(249);
+        bookNameLbl.setFont(new Font("Times New Roman", 17));
+
+        // Your Books Label
+        Label yourBooksLbl = new Label("Your Books:");
+        yourBooksLbl.setLayoutX(66);
+        yourBooksLbl.setLayoutY(85);
+        yourBooksLbl.setFont(new Font("Times New Roman", 17));
+
+        // Search Result Label
+        Label searchResultLbl = new Label("Search Result");
+        searchResultLbl.setLayoutX(220);
+        searchResultLbl.setLayoutY(291);
+        searchResultLbl.setFont(new Font(14));
+        StackPane searchResult = new StackPane();
+        searchResult.getChildren().add(searchResultLbl);
+        
+        // TextField for Book Name
+        TextField bookNameFld = new TextField();
+        bookNameFld.setLayoutX(170);
+        bookNameFld.setLayoutY(250);
+        bookNameFld.setPrefSize(196, 25);
+
+        // TextArea for Your Books
+        TextArea yourBooks = new TextArea();
+        yourBooks.setLayoutX(170);
+        yourBooks.setLayoutY(85);
+        yourBooks.setPrefSize(200, 80);
+        yourBooks.setEditable(false);
+        User u = new User(new Borrow[3]);
+        //yourBooks.setText(u.getList());
+
+        // RadioButton for Book Types
+        ToggleGroup bookTypes = new ToggleGroup();
+        RadioButton novel = new RadioButton("Novel");
+        novel.setLayoutX(170);
+        novel.setLayoutY(211);
+        novel.setToggleGroup(bookTypes);
+        
+        RadioButton magazine = new RadioButton("Magazine");
+        magazine.setLayoutX(258);
+        magazine.setLayoutY(211);
+        magazine.setToggleGroup(bookTypes);
+
+        // Buttons
+        Button searchBtn = new Button("Search");
+        searchBtn.setLayoutX(387);
+        searchBtn.setLayoutY(249);
+        searchBtn.setOnAction(e -> {
+            try {
+                if (novel.isSelected()) {
+                    Book novBook = new Novels();
+                    novBook = novBook.findBook(bookNameFld.getText());
+                    Borrow borBook = new Borrow(novBook);
+                    if (novBook.getBookName() == null) {
+                        searchResultLbl.setText("Novel isn't available");
+                    } else if (novBook.canBorrow(novBook.getBookName())) {
+                        searchResultLbl.setText("Novel is available!");
+
+                    } else {
+                        for (int i = 0; i<3; i++){
+                           if (equals((User.vaildUser.getBorrowedBooks()[i].getBookName()))) {
+                            searchResultLbl.setText("you have already borrowed \"" + novBook.getBookName() + "\".");
+                              }
+                        }
+                        searchResultLbl.setText("Currently out of stock");
+                    }
+                } else if (magazine.isSelected()) {
+                    Book mgBook = new Magazine();
+                    mgBook = mgBook.findBook(bookNameFld.getText());
+                    Borrow borBook = new Borrow(mgBook);
+                    if (mgBook.getBookName() == null) {
+                        searchResultLbl.setText("magazine isn't available");
+                    } else if (mgBook.canBorrow(mgBook.getBookName())) {
+                        searchResultLbl.setText("Novel is available!");
+                    } else {
+                        for (int i = 0; i<3; i++){
+                           if (equals((User.vaildUser.getBorrowedBooks()[i].getBookName()))) {
+                            searchResultLbl.setText("you have already borrowed \"" + mgBook.getBookName() + "\".");
+                               }
+                        } 
+                        searchResultLbl.setText("Currently out of stock");
+                    }
+                } else {
+                    searchResultLbl.setText("Select The Book Type");
+                }
+            } catch (Exception o) {
+                searchResultLbl.setText("Something went wrong");
+            }
+        }
+        );
+
+        Button borrowBtn = new Button("Borrow");
+        borrowBtn.setLayoutX(285);
+        borrowBtn.setLayoutY(344);
+        //returnBtn.setFont(new Font(18));
+        borrowBtn.setOnAction(e -> {
+            try {
+                if (novel.isSelected()) {
+                    
+                    Book novBook = new Novels();
+                    novBook = novBook.findBook(bookNameFld.getText());
+                    Borrow borBook = new Borrow(novBook);
+                    
+                    if (novBook.getBookName() == null) {
+                        searchResultLbl.setText("Novel isn't available");
+                    } else {
+                        searchResultLbl.setText(borBook.borrowBook());
+                    }
+                    
+                } else if (magazine.isSelected()) {
+                    Book book = new Magazine();
+                    Borrow borBook = new Borrow(book);
+                    book = book.findBook(bookNameFld.getText());
+                    if (book.getBookName() == null) {
+                        searchResultLbl.setText("magazine isn't available");
+                    } else {
+                        searchResultLbl.setText(borBook.borrowBook());
+                    }
+                }
+                    else
+                    searchResultLbl.setText("Select The Book Type");
+                
+            } catch (Exception o) {
+                searchResultLbl.setText("Something went wrong");
+            }
+        }
+        );
+        Button returnBtn = new Button("Return");
+        returnBtn.setLayoutX(195);
+        returnBtn.setLayoutY(344);
+
+        Button backBtn = new Button("Back");
+        backBtn.setLayoutX(39);
+        backBtn.setLayoutY(429);
+        //backBtn.setFont(new Font(17));
+
+        Button exitBtn = new Button("Exit");
+        exitBtn.setLayoutX(100);
+        exitBtn.setLayoutY(429);
+        //exitBtn.setFont(new Font(18));
+        backBtn.setOnAction(e -> {
+            primaryStage.close();
+        });
+
+        root.getChildren().addAll(
+                welcomeLbl,
+                bookTypeLbl,
+                bookNameLbl,
+                bookNameFld,
+                yourBooksLbl,
+                searchResult,
+                exitBtn,
+                backBtn,
+                returnBtn,
+                borrowBtn,
+                searchBtn,
+                magazine,
+                novel,
+                yourBooks
+        );
+
+        primaryStage.setTitle("Library App");
+        primaryStage.setScene(new Scene(root));
+        primaryStage.show();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+}
