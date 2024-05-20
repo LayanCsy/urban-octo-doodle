@@ -1,3 +1,13 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package library;
+
+/**
+ *
+ * @author faisa
+ */
 import java.io.IOException;
 import java.util.Date;
 
@@ -70,7 +80,7 @@ public class Borrow implements Account{
  
     @Override
     public String toString() {
-        return "";
+        return "\nBook name: " + bookName + "\bAuther: " + bookAuther + "\nBorrowing Date: " + borrowingDate;
     }
  
     public String getBookName() {
