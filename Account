@@ -1,8 +1,19 @@
-public interface  {
-    
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
+ */
+package library;
+
+/**
+ *
+ * @author faisa
+ */
+public interface Account {
     final static int allowedBooks = 3;
     
     
     public abstract boolean authentication (String userID, String userPassword);
         public String getList () throws NullPointerException;
-    }
+    
+    
+}
