@@ -1,9 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMain.java to edit this template
- */
-package library.javafx;
-
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -23,17 +17,15 @@ import library.Novels;
 import library.User;
 
 public class Borrowing extends Application {
-    
-   
-   
-   @Override
+
+    @Override
     public void start(Stage primaryStage) {
-       Pane root = new Pane();
+        Pane root = new Pane();
         root.setPrefSize(535, 500);
 
         // Welcome Label
         Label welcomeLbl = new Label("Welcome UserName");
-         welcomeLbl.setLayoutX(155);
+        welcomeLbl.setLayoutX(155);
         welcomeLbl.setLayoutY(35);
         welcomeLbl.setFont(new Font("Times New Roman", 27));
 
@@ -42,7 +34,7 @@ public class Borrowing extends Application {
         bookTypeLbl.setLayoutX(66);
         bookTypeLbl.setLayoutY(207);
         bookTypeLbl.setFont(new Font("Times New Roman", 17));
-        
+
         // Book Name Label
         Label bookNameLbl = new Label("Book Name:");
         bookNameLbl.setLayoutX(66);
@@ -62,7 +54,7 @@ public class Borrowing extends Application {
         searchResultLbl.setFont(new Font(14));
         StackPane searchResult = new StackPane();
         searchResult.getChildren().add(searchResultLbl);
-        
+
         // TextField for Book Name
         TextField bookNameFld = new TextField();
         bookNameFld.setLayoutX(170);
@@ -75,7 +67,7 @@ public class Borrowing extends Application {
         yourBooks.setLayoutY(85);
         yourBooks.setPrefSize(200, 80);
         yourBooks.setEditable(false);
-         User.vaildUser= new User(new Borrow[3]);
+        User.vaildUser = new User(new Borrow[3]);
         yourBooks.setText(User.vaildUser.getList());
 
         // RadioButton for Book Types
@@ -84,14 +76,12 @@ public class Borrowing extends Application {
         novel.setLayoutX(170);
         novel.setLayoutY(211);
         novel.setToggleGroup(bookTypes);
-        
+
         RadioButton magazine = new RadioButton("Magazine");
         magazine.setLayoutX(258);
         magazine.setLayoutY(211);
         magazine.setToggleGroup(bookTypes);
 
-       
-        
         // Buttons
         Button searchBtn = new Button("Search");
         searchBtn.setLayoutX(387);
@@ -143,78 +133,101 @@ public class Borrowing extends Application {
             }
         }
         );
-        
-        
+
+        //Borrowing button
         Button borrowBtn = new Button("Borrow");
         borrowBtn.setLayoutX(285);
         borrowBtn.setLayoutY(344);
-        //returnBtn.setFont(new Font(18));
         borrowBtn.setOnAction(e -> {
             try {
+                //if the user chose novel
                 if (novel.isSelected()) {
-                    
+
+                    //to bring the book's neaded informtion from the file text
                     Book novBook = new Novels();
                     novBook = novBook.findBook(bookNameFld.getText());
                     Borrow borBook = new Borrow(novBook);
-                    
+
+                    //if the book is not found in the file text
                     if (novBook.getBookName() == null) {
                         searchResultLbl.setText("Novel isn't available");
                     } else {
-                        searchResultLbl.setText(borBook.borrowBook());
-                        yourBooks.setText(User.vaildUser.getList());
+                        //if the book is found in the file text
+                        searchResultLbl.setText(borBook.borrowBook());//go to Borrow class
+                        yourBooks.setText(User.vaildUser.getList());//to abdate the "yourBooks" text filde in case the borrowing was secsead
                     }
-                    
+
+                    //if the user chose magazine
                 } else if (magazine.isSelected()) {
+
+                    //to bring the book's neaded informtion from the file text
                     Book book = new Magazine();
                     Borrow borBook = new Borrow(book);
                     book = book.findBook(bookNameFld.getText());
+
+                    //if the book is not found in the file text
                     if (book.getBookName() == null) {
                         searchResultLbl.setText("magazine isn't available");
+
+                        //if the book is found in the file text
                     } else {
                         searchResultLbl.setText(borBook.borrowBook());
                         yourBooks.setText(User.vaildUser.getList());
                     }
-                }
-                    else
+                } else {
                     searchResultLbl.setText("Select The Book Type");
-                
+                }
+
             } catch (Exception o) {
                 searchResultLbl.setText("Something went wrong");
             }
         }
         );
+        //Returning button
         Button returnBtn = new Button("Return");
         returnBtn.setLayoutX(195);
         returnBtn.setLayoutY(344);
         returnBtn.setOnAction(e -> {
             try {
+                //if the user chose novel
                 if (novel.isSelected()) {
-                    
+
+                    //to bring the book's neaded informtion from the file text
                     Book novBook = new Novels();
                     novBook = novBook.findBook(bookNameFld.getText());
                     Borrow borBook = new Borrow(novBook);
-                    
+
+                    //if the book is not found in the file text
                     if (novBook.getBookName() == null) {
                         searchResultLbl.setText("Novel isn't available");
-                    } else {
-                        searchResultLbl.setText(borBook.returnBook());
-                       yourBooks.setText(User.vaildUser.getList());
-                    }
-                    
-                } else if (magazine.isSelected()) {
-                    Book book = new Magazine();
-                    Borrow borBook = new Borrow(book);
-                    book = book.findBook(bookNameFld.getText());
-                    if (book.getBookName() == null) {
-                        searchResultLbl.setText("magazine isn't available");
+
+                        //if the book is found in the file text
                     } else {
                         searchResultLbl.setText(borBook.returnBook());
                         yourBooks.setText(User.vaildUser.getList());
                     }
-                }
-                    else
+
+                    //if the user chose magazine  
+                } else if (magazine.isSelected()) {
+
+                    //to bring the book's neaded informtion from the file text
+                    Book book = new Magazine();
+                    Borrow borBook = new Borrow(book);
+                    book = book.findBook(bookNameFld.getText());
+
+                    //if the book is not found in the file text
+                    if (book.getBookName() == null) {
+                        searchResultLbl.setText("magazine isn't available");
+
+                        //if the book is found in the file text
+                    } else {
+                        searchResultLbl.setText(borBook.returnBook());
+                        yourBooks.setText(User.vaildUser.getList());
+                    }
+                } else {
                     searchResultLbl.setText("Select The Book Type");
-                
+                }
+
             } catch (Exception o) {
                 searchResultLbl.setText("Something went wrong");
             }
@@ -224,12 +237,10 @@ public class Borrowing extends Application {
         Button backBtn = new Button("Back");
         backBtn.setLayoutX(39);
         backBtn.setLayoutY(429);
-        //backBtn.setFont(new Font(17));
 
         Button exitBtn = new Button("Exit");
         exitBtn.setLayoutX(100);
         exitBtn.setLayoutY(429);
-        //exitBtn.setFont(new Font(18));
         backBtn.setOnAction(e -> {
             primaryStage.close();
         });
@@ -257,7 +268,7 @@ public class Borrowing extends Application {
     }
 
     public static void main(String[] args) {
-        
+
         launch(args);
     }
 }
