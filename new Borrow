@@ -1,37 +1,27 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package library;
-
-/**
- *
- * @author faisa
- */
 import java.io.IOException;
 import java.util.Date;
 
-public class Borrow implements Account{
+public class Borrow implements Account {
 
-    //private Book currentBook;
+    //private Book borrowed book;
     private String bookName;
     private String bookAuther;
     private int quantity;
     private Date borrowingDate;
-    private Book book2 ;
+    private Book book2;
     //9999999999
     private User user;
 
     public Borrow(Book book) throws IOException {
-        
+
         book2 = book;
         this.quantity = book.getQuantity();
-         this.bookName = book.getBookName();
+        this.bookName = book.getBookName();
         this.bookAuther = book.getA();
         this.borrowingDate = new Date();
     }
 
-    // to borrow book
+    // to borrow a book
     public String borrowBook() throws IOException {
 
         //to check if the user iligable to borrow 
@@ -39,15 +29,20 @@ public class Borrow implements Account{
             if ((User.vaildUser.getBorrowedBooks()[i]) != null) {
                 if (book2.getBookName().equalsIgnoreCase(User.vaildUser.getBorrowedBooks()[i].getBookName())) {
                     return "you have already borrowed \"" + book2.getBookName() + "\".";
+
+                    //to check if the book in stock
                 } else if (book2.getQuantity() <= 0) {
                     return "You can't borrow \"" + book2.getBookName() + "\" .\nit's out of stock.";
                 }
 
+                //to check if the book in stock
             } else if (!(book2.getQuantity() <= 0)) {
+
                 User.vaildUser.getBorrowedBooks()[i] = this;
                 book2.removeBook(book2.getBookName());
                 book2.setQuantity(quantity--);
                 return "you have borrowed \"" + book2.getBookName() + "\" successfully.";
+
             } else {
                 return "You can't borrow \"" + book2.getBookName() + "\" .\nit's out of stock.";
             }
@@ -55,79 +50,72 @@ public class Borrow implements Account{
         return "you can't borrow \"" + book2.getBookName() + "\"\nyou have reached maximum capacity.";
     }//end borrowBook
 
-
     //to return book
     public String returnBook() throws IOException {
         //to check if the user borrowed the book
 
         for (int i = 0; i <= 2; i++) {
             if ((User.vaildUser.getBorrowedBooks()[i]) != null) {
-              if (book2.getBookName().equalsIgnoreCase(User.vaildUser.getBorrowedBooks()[i].getBookName())) {
-                User.vaildUser.getBorrowedBooks()[i] = null;
-                book2.addBook(book2.getBookName());
-                book2.setQuantity(quantity++);
-                return "you have returned \"" + book2.getBookName() + "\" successfully.";
-               }
+                if (book2.getBookName().equalsIgnoreCase(User.vaildUser.getBorrowedBooks()[i].getBookName())) {
+                    User.vaildUser.getBorrowedBooks()[i] = null;
+                    book2.addBook(book2.getBookName());
+                    book2.setQuantity(quantity++);
+                    return "you have returned \"" + book2.getBookName() + "\" successfully.";
+                }
             }
         }//end for loop
         return "you didn't borrow \"" + book2.getBookName() + "\".";
     }//end returnBook
 
-    public Date getBorrowingDate() {
-        return borrowingDate;
-    }
- 
- 
-    @Override
-    public String toString() {
-        return "\nBook name: " + bookName + "\bAuther: " + bookAuther + "\nBorrowing Date: " + borrowingDate;
-    }
- 
     public String getBookName() {
         return book2.getBookName();
     }
- 
+
     public void setBookName(String bookName) {
-        book2.setBookName(bookName) ;
+        book2.setBookName(bookName);
     }
- 
+
     public String getBookAuther() {
         return bookAuther;
     }
- 
+
     public void setBookAuther(String bookAuther) {
         this.bookAuther = bookAuther;
     }
- 
+
     public int getQuantity() {
         return quantity;
     }
- 
+
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
- 
+
+    public Date getBorrowingDate() {
+        return borrowingDate;
+    }
+
     public Book getBook2() {
         return book2;
     }
- 
+
     public void setBook2(Book book2) {
         this.book2 = book2;
     }
- 
+
     public User getUser() {
         return user;
     }
- 
+
     public void setUser(User user) {
         this.user = user;
     }
 
-    public boolean equals(String o) {
-        return book2.getBookName() == o;
+    @Override
+    public String toString() {
+        return "\nBook name: " + bookName + "\bAuther: " + bookAuther + "\nBorrowing Date: " + borrowingDate;
     }
-    
-    
+
     @Override
     public boolean authentication(String userID, String userPassword) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -137,7 +125,6 @@ public class Borrow implements Account{
     public String getList() throws NullPointerException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
-    
+
 }
 //end Borrow
