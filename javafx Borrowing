@@ -1,3 +1,9 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMain.java to edit this template
+ */
+package library.javafx;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -17,8 +23,10 @@ import library.Novels;
 import library.User;
 
 public class Borrowing extends Application {
-
-    @Override
+    
+   
+   
+   @Override
     public void start(Stage primaryStage) {
        Pane root = new Pane();
         root.setPrefSize(535, 500);
@@ -82,6 +90,8 @@ public class Borrowing extends Application {
         magazine.setLayoutY(211);
         magazine.setToggleGroup(bookTypes);
 
+        User.vaildUser= new User(new Borrow[3]);
+        
         // Buttons
         Button searchBtn = new Button("Search");
         searchBtn.setLayoutX(387);
@@ -98,10 +108,12 @@ public class Borrowing extends Application {
                         searchResultLbl.setText("Novel is available!");
 
                     } else {
-                        for (int i = 0; i<3; i++){
-                           if (equals((User.vaildUser.getBorrowedBooks()[i].getBookName()))) {
-                            searchResultLbl.setText("you have already borrowed \"" + novBook.getBookName() + "\".");
-                              }
+                        for (int i = 0; i < 3; i++) {
+                            if ((User.vaildUser.getBorrowedBooks()[i]) != null) {
+                                if (novBook.getBookName().equalsIgnoreCase(User.vaildUser.getBorrowedBooks()[i].getBookName())) {
+                                    searchResultLbl.setText("you have already borrowed \"" + novBook.getBookName() + "\".");
+                                }
+                            }
                         }
                         searchResultLbl.setText("Currently out of stock");
                     }
@@ -114,11 +126,13 @@ public class Borrowing extends Application {
                     } else if (mgBook.canBorrow(mgBook.getBookName())) {
                         searchResultLbl.setText("Novel is available!");
                     } else {
-                        for (int i = 0; i<3; i++){
-                           if (equals((User.vaildUser.getBorrowedBooks()[i].getBookName()))) {
-                            searchResultLbl.setText("you have already borrowed \"" + mgBook.getBookName() + "\".");
-                               }
-                        } 
+                        for (int i = 0; i < 3; i++) {
+                            if ((User.vaildUser.getBorrowedBooks()[i]) != null) {
+                                if (borBook.getBookName().equalsIgnoreCase(User.vaildUser.getBorrowedBooks()[i].getBookName())) {
+                                    searchResultLbl.setText("you have already borrowed \"" + mgBook.getBookName() + "\".");
+                                }
+                            }
+                        }
                         searchResultLbl.setText("Currently out of stock");
                     }
                 } else {
@@ -129,7 +143,8 @@ public class Borrowing extends Application {
             }
         }
         );
-
+        
+        
         Button borrowBtn = new Button("Borrow");
         borrowBtn.setLayoutX(285);
         borrowBtn.setLayoutY(344);
@@ -169,6 +184,38 @@ public class Borrowing extends Application {
         Button returnBtn = new Button("Return");
         returnBtn.setLayoutX(195);
         returnBtn.setLayoutY(344);
+        returnBtn.setOnAction(e -> {
+            try {
+                if (novel.isSelected()) {
+                    
+                    Book novBook = new Novels();
+                    novBook = novBook.findBook(bookNameFld.getText());
+                    Borrow borBook = new Borrow(novBook);
+                    
+                    if (novBook.getBookName() == null) {
+                        searchResultLbl.setText("Novel isn't available");
+                    } else {
+                        searchResultLbl.setText(borBook.returnBook());
+                    }
+                    
+                } else if (magazine.isSelected()) {
+                    Book book = new Magazine();
+                    Borrow borBook = new Borrow(book);
+                    book = book.findBook(bookNameFld.getText());
+                    if (book.getBookName() == null) {
+                        searchResultLbl.setText("magazine isn't available");
+                    } else {
+                        searchResultLbl.setText(borBook.returnBook());
+                    }
+                }
+                    else
+                    searchResultLbl.setText("Select The Book Type");
+                
+            } catch (Exception o) {
+                searchResultLbl.setText("Something went wrong");
+            }
+        }
+        );
 
         Button backBtn = new Button("Back");
         backBtn.setLayoutX(39);
@@ -206,6 +253,7 @@ public class Borrowing extends Application {
     }
 
     public static void main(String[] args) {
+        
         launch(args);
     }
 }
