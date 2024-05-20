@@ -1,28 +1,39 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package library;
+
+
+/**
+ *
+ * @author faisa
+ */
 import java.util.ArrayList;
 
 public class User implements Account{
-    static int i;
+    //9999999
+    //static int i;
     private String userID ;
     private String userName ;
     private String userPassword;
     private String userType; 
-    private Borrow[] borrowedBooks; // assotiation relationship with borrow
-    
+    private Borrow[] borrowedBooks ; // assotiation relationship with borrow
+    public static User vaildUser ;
     public static ArrayList <User> users = new ArrayList<>();
     
     
     //no-args constructor 
-//    public User (){
-//        borrowedBooks = new Borrow[allowedBooks];
-//    }
+    public User (Borrow[] n){
+        borrowedBooks = n;
+    }
     
     //constructor for the login procces 
-    /*public User (String userID , String userPassword){
-//        this();
-        this.userID = userID;
-        this.userPassword = userPassword;
-        
-    }*/
+//    public User (String userID , String userPassword){
+////        this();
+//        this.userID = userID;
+//        this.userPassword = userPassword;
+//    }
     
     //constructor used to add vaild users 
     public User (String userID , String userPassword  , String userName, String userType ){
@@ -37,7 +48,7 @@ public class User implements Account{
         
     }
     
-static User vaildUser  ;
+
 
     public String getUserName (){
         return userName ;
@@ -77,29 +88,32 @@ static User vaildUser  ;
        
     
     @Override
-     public String getList () throws NullPointerException {
-         String list = "";
+     public String getList () {
+         String list = "" ;
         for (Borrow borrowedBook : borrowedBooks) {
-            list = list + borrowedBook.toString();
-        }
-         return list;
+            if (borrowedBook  != null){
+                list= list + borrowedBook.toString() + "\n";
+                
+            }else 
+                 list +="";
+     }return list;
      }
      
      //method to cheack if the user is vaild or not
      
      
      public boolean authentication (String userID , String userPassword){
-        for ( i = 0 ; i <users.size()-1 ; i++){
+        for ( int i = 0 ; i <users.size() ; i++){
             if (userID.equals(users.get(i).getUserID())){
                if (userPassword.equals(users.get(i).getUserPassword())){
-                   vaildUser = new User (users.get(i).userID , users.get(i).userPassword , users.get(i).userName , users.get(i).userType);
+                   //vaildUser = new User (users.get(i).borrowedBooks);
                    return true;
                }
             }     
         } // end for loop
         
          return  false ;
-   }
+    }
     
      
      
