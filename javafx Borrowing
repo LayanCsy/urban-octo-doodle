@@ -1,9 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMain.java to edit this template
- */
-package library.javafx;
-
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -75,8 +69,8 @@ public class Borrowing extends Application {
         yourBooks.setLayoutY(85);
         yourBooks.setPrefSize(200, 80);
         yourBooks.setEditable(false);
-        User u = new User(new Borrow[3]);
-        //yourBooks.setText(u.getList());
+         User.vaildUser= new User(new Borrow[3]);
+        yourBooks.setText(User.vaildUser.getList());
 
         // RadioButton for Book Types
         ToggleGroup bookTypes = new ToggleGroup();
@@ -90,7 +84,7 @@ public class Borrowing extends Application {
         magazine.setLayoutY(211);
         magazine.setToggleGroup(bookTypes);
 
-        User.vaildUser= new User(new Borrow[3]);
+       
         
         // Buttons
         Button searchBtn = new Button("Search");
@@ -161,6 +155,7 @@ public class Borrowing extends Application {
                         searchResultLbl.setText("Novel isn't available");
                     } else {
                         searchResultLbl.setText(borBook.borrowBook());
+                        yourBooks.setText(User.vaildUser.getList());
                     }
                     
                 } else if (magazine.isSelected()) {
@@ -171,6 +166,7 @@ public class Borrowing extends Application {
                         searchResultLbl.setText("magazine isn't available");
                     } else {
                         searchResultLbl.setText(borBook.borrowBook());
+                        yourBooks.setText(User.vaildUser.getList());
                     }
                 }
                     else
@@ -196,6 +192,7 @@ public class Borrowing extends Application {
                         searchResultLbl.setText("Novel isn't available");
                     } else {
                         searchResultLbl.setText(borBook.returnBook());
+                       yourBooks.setText(User.vaildUser.getList());
                     }
                     
                 } else if (magazine.isSelected()) {
@@ -206,6 +203,7 @@ public class Borrowing extends Application {
                         searchResultLbl.setText("magazine isn't available");
                     } else {
                         searchResultLbl.setText(borBook.returnBook());
+                        yourBooks.setText(User.vaildUser.getList());
                     }
                 }
                     else
