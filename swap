@@ -5,7 +5,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene; 
 import javafx.scene.control.Button; 
 import javafx.scene.layout.BorderPane; 
-import javafx.scene.layout.StackPane; 
 import javafx.scene.paint.Color; 
 import javafx.scene.shape.Rectangle; 
 import javafx.stage.Stage; 
@@ -14,11 +13,9 @@ public class NewFXMain extends Application {
     // Override the start method in the Application class 
     public void start(Stage primaryStage) { 
         
-        StackPane stackPane = new StackPane(); 
         Rectangle rectangle = new Rectangle(30, 30, 30, 60); 
         rectangle.setFill(Color.WHITE); 
         rectangle.setStroke(Color.BLACK); 
-        stackPane.getChildren().add(rectangle);
         
         // Create a button‐ Source of event 
         Button btRotate = new Button("Rotate"); 
@@ -26,12 +23,12 @@ public class NewFXMain extends Application {
         // Register the handler with the source 
          
         BorderPane pane = new BorderPane(); 
-        pane.setCenter(stackPane); 
+        pane.setCenter(rectangle); 
         pane.setBottom(btRotate); 
         BorderPane.setAlignment(btRotate, Pos.TOP_CENTER);
         
         // Create Rotate handler 
-        RotateHandler rotateHandler = new RotateHandler(pane, btRotate,stackPane); 
+        RotateHandler rotateHandler = new RotateHandler(pane, btRotate,rectangle); 
         btRotate.setOnAction(rotateHandler);
 
         // Create a scene and place it in the stage 
@@ -51,17 +48,18 @@ public class NewFXMain extends Application {
 class RotateHandler implements EventHandler<ActionEvent> { 
     BorderPane pane; 
     Button btRotate;
-    StackPane stackPane;
-    public RotateHandler(BorderPane pane, Button btRotate, StackPane stackPane) { 
+    Rectangle rectangle;
+    
+    public RotateHandler(BorderPane pane, Button btRotate, Rectangle rectangle) { 
         this.pane = pane; 
         this.btRotate = btRotate; 
-        this.stackPane = stackPane;
+        this.rectangle = rectangle;
     } 
     @Override 
     public void handle(ActionEvent event) { 
         pane.setCenter(btRotate); 
-        pane.setBottom(stackPane);
-        BorderPane.setAlignment(stackPane, Pos.TOP_CENTER);
+        pane.setBottom(rectangle);
+        BorderPane.setAlignment(rectangle, Pos.TOP_CENTER);
 
     } 
 }
